@@ -6,17 +6,11 @@ import platform
 
 def exec_shell(cmd: str, allow_fail=False) -> int:
     print(f"RUNNING: {cmd}")
-    proc = subprocess.Popen(cmd, shell=True, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout, _ = proc.communicate()
-    if stdout:
-        # Adds indent to front.
-        if '\n' in stdout:
-            stdout = '  ' + '\n  '.join(stdout.split('\n')).strip()
-        else:
-            stdout = '  ' + stdout
-    if stdout:
-        print(stdout)
-    rtn = proc.returncode
+    with subprocess.Popen(cmd, shell=True, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as proc:
+        for line in proc.stdout:
+            print('  ' + line)
+        proc.wait()
+        rtn = proc.returncode
     if allow_fail:
         if rtn != 0:
             print(f"RETURNED: {rtn} !! Warning, executing \n  {cmd}\n  returned abnormally.")
