@@ -8,7 +8,9 @@ def exec_shell(cmd: str) -> int:
     print(f"RUNNING\n  {cmd}")
     rtn = os.system(cmd)
     if rtn != 0:
-        print(f"Warning, executing \n  {cmd}\n  returned code {rtn}")
+        print(f"RETURNED {rtn} Warning, executing \n  {cmd}\n  returned abnormally.")
+    else:
+        print("RETURNED: 0")
     return rtn
 
 
