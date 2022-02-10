@@ -11,7 +11,7 @@ def exec_shell(cmd: str, allow_fail=False) -> int:
             print('  ' + line.strip())
         proc.wait()
         rtn = proc.returncode
-        stderr = proc.stderr.read()
+        stderr = proc.stderr.read().strip()
     if stderr:
         print(f"ERROR: {stderr}")
     if allow_fail:
