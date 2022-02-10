@@ -58,7 +58,7 @@ def main() -> None:
     exec_shell("sudo -u peertube chmod 750 config/")
     os.chdir("/var/www/peertube/versions")
     exec_shell(
-        f'sudo -u peertube wget -q "https://github.com/Chocobozzz/PeerTube/releases/download/${version_str}/peertube-${version_str}.zip"'
+        f'sudo -u peertube wget -q "https://github.com/Chocobozzz/PeerTube/releases/download/{version_str}/peertube-{version_str}.zip"'
     )
     exec_shell(
         f"sudo -u peertube unzip -q peertube-${version_str}.zip && sudo -u peertube rm peertube-${version_str}.zip"
