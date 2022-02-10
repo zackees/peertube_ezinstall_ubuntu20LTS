@@ -67,7 +67,7 @@ def exe_shell_script():
     # exec_shell('ffmpeg -version') should be >= 4.1
     # exec_shell('g++ -v') # Should be >= 5.x
     exec_shell("sudo systemctl start redis postgresql")
-    exec_shell("sudo useradd -m -d /var/www/peertube -s /bin/bash -p peertube peertube")
+    exec_shell("sudo useradd -m -d /var/www/peertube -s /bin/bash -p peertube peertube", allow_fail=True)
     print('Warning: using default user/pass "peertube"')
     exec_shell("echo peertube\\npeertube | sudo passwd peertube")
     chdir("/var/www/peertube")
