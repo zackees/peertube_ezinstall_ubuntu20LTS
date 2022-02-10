@@ -5,7 +5,7 @@ import platform
 
 
 def exec_shell(cmd: str) -> int:
-    print(f"Running {cmd}:")
+    print(f"RUNNING\n  {cmd}")
     rtn = os.system(cmd)
     if rtn != 0:
         print(f"Warning, executing \n  {cmd}\n  returned code {rtn}")
