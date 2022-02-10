@@ -5,22 +5,20 @@ import platform
 
 
 def exec_shell(cmd: str, allow_fail=False) -> int:
-    print(f"RUNNING  {cmd}")
+    print(f"RUNNING: {cmd}")
     proc = subprocess.Popen(cmd, shell=True, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, _ = proc.communicate()
     if stdout:
         # Adds indent to front.
         stdout = '  ' + '\n  '.join(stdout.split('\n'))
-
     print(stdout)
     rtn = proc.returncode
     if allow_fail:
         if rtn != 0:
-            print(f"RETURNED {rtn} Warning, executing \n  {cmd}\n  returned abnormally.")
-        else:
-            print("RETURNED: 0")
+            print(f"RETURNED: {rtn} !! Warning, executing \n  {cmd}\n  returned abnormally.")
     elif rtn != 0:
         raise subprocess.CalledProcessError(rtn, cmd)
+    print("RETURNED: 0")
     return rtn
 
 def exec_stdout(cmd: str) -> str:
