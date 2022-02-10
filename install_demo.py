@@ -27,7 +27,7 @@ def system_version() -> str:
     return platform.uname().version
 
 def chdir(path: str) -> str:
-    prev = os.chdir()
+    prev = os.getcwd()
     os.chdir(path)
     return prev
 
