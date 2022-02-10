@@ -98,7 +98,7 @@ def main() -> None:
     try:
         exe_shell_script()
     except subprocess.CalledProcessError as cpe:
-        print(F"UNEXPECTED ERROR: {cpe.cmd} failed with return code {cpe.returncode}, stderr: {cpe.stderr}")
+        print(F"UNEXPECTED ERROR:\n  CMD: {cpe.cmd}\n  RTN: {cpe.returncode}\n  STDERR: {cpe.stderr}")
         sys.exit(1)
 
 
