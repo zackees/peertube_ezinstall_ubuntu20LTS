@@ -6,7 +6,7 @@ import platform
 
 def exec_shell(cmd: str, allow_fail=False) -> int:
     print(f"RUNNING  {cmd}")
-    proc = subprocess.Popen(cmd, shell=True, universal_newlines=True, stdout=subprocess.PIPE, stdout=subprocess.PIPE)
+    proc = subprocess.Popen(cmd, shell=True, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, _ = proc.communicate()
     print('\n  '.join(stdout.split('\n')))
     rtn = proc.returncode
