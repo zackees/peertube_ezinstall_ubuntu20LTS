@@ -26,7 +26,7 @@ def main() -> None:
     # exec_shell('g++ -v') # Should be >= 5.x
     exec_shell("sudo systemctl start redis postgresql")
     exec_shell("sudo useradd -m -d /var/www/peertube -s /bin/bash -p peertube peertube")
-    exec_shell("sudo passwd peertube")
+    exec_shell("echo peertube | sudo passwd peertube")
     os.chdir("/var/www/peertube")
     exec_shell(
         "sudo -u postgres createdb -O peertube -E UTF8 -T template0 peertube_prod")
