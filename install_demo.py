@@ -8,7 +8,7 @@ def exec_shell(cmd: str, allow_fail=False) -> int:
     print(f"RUNNING  {cmd}")
     proc = subprocess.Popen(cmd, shell=True, universal_newlines=True)
     stdout, _ = proc.communicate()
-    print(stdout)
+    print('\n  '.join(stdout.split('\n')))
     rtn = proc.returncode
     if allow_fail:
         if rtn != 0:
