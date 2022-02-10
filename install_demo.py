@@ -8,7 +8,11 @@ def exec_shell(cmd: str, allow_fail=False) -> int:
     print(f"RUNNING  {cmd}")
     proc = subprocess.Popen(cmd, shell=True, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, _ = proc.communicate()
-    print('\n  '.join(stdout.split('\n')))
+    if stdout:
+        # Adds indent to front.
+        stdout = '  ' + '\n  '.join(stdout.split('\n'))
+
+    print(stdout)
     rtn = proc.returncode
     if allow_fail:
         if rtn != 0:
