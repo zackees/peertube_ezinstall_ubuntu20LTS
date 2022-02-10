@@ -4,15 +4,20 @@ import subprocess
 import platform
 
 
-def exec_shell(cmd: str) -> int:
+def exec_shell(cmd: str, allow_fail=False) -> int:
     print(f"RUNNING  {cmd}")
-    rtn = os.system(cmd)
-    if rtn != 0:
-        print(f"RETURNED {rtn} Warning, executing \n  {cmd}\n  returned abnormally.")
-    else:
-        print("RETURNED: 0")
+    proc = subprocess.Popen(cmd, shell=True, universal_newlines=True)
+    stdout, _ = proc.communicate()
+    print(stdout)
+    rtn = proc.returncode
+    if allow_fail:
+        if rtn != 0:
+            print(f"RETURNED {rtn} Warning, executing \n  {cmd}\n  returned abnormally.")
+        else:
+            print("RETURNED: 0")
+    elif rtn != 0:
+        raise subprocess.CalledProcessError(rtn, cmd)
     return rtn
-
 
 def exec_stdout(cmd: str) -> str:
     return subprocess.check_output(cmd, shell=True, universal_newlines=True)
@@ -28,6 +33,7 @@ def system_version() -> str:
 
 def chdir(path: str) -> str:
     prev = os.getcwd()
+    print(f"CHDIR: {prev} -> {path}")
     os.chdir(path)
     return prev
 
@@ -48,6 +54,7 @@ def main() -> None:
     # exec_shell('g++ -v') # Should be >= 5.x
     exec_shell("sudo systemctl start redis postgresql")
     exec_shell("sudo useradd -m -d /var/www/peertube -s /bin/bash -p peertube peertube")
+    print("Warning: using default user/pass \"peertube\"")
     exec_shell("echo peertube\\npeertube | sudo passwd peertube")
     chdir("/var/www/peertube")
     exec_shell(
