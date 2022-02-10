@@ -70,7 +70,7 @@ def exe_shell_script():
     exec_shell("sudo systemctl start redis postgresql")
     exec_shell("sudo useradd -m -d /var/www/peertube -s /bin/bash -p peertube peertube", allow_fail=True)
     print('Warning: using default user/pass "peertube"')
-    exec_shell("echo peertube\\npeertube | sudo passwd peertube")
+    exec_shell(r"echo -e peertube\npeertube | sudo passwd peertube --stdin")
     chdir("/var/www/peertube")
     exec_shell(
         "sudo -u postgres createdb -O peertube -E UTF8 -T template0 peertube_prod"
