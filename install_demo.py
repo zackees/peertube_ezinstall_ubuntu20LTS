@@ -1,6 +1,7 @@
 import os
 import sys
 import subprocess
+import platform
 
 
 def exec_shell(cmd: str) -> int:
@@ -14,8 +15,23 @@ def exec_shell(cmd: str) -> int:
 def exec_stdout(cmd: str) -> str:
     return subprocess.check_output(cmd, shell=True)
 
+def system_name() -> str:
+    if sys.platform == 'win32':
+        return platform.uname().system
+    else:
+        return platform.uname().node
+
+def system_version() -> str:
+    return platform.uname().version
+
 
 def main() -> None:
+    if 'ubuntu' != system_name():
+        print(f"Error, this script is only tested for ubuntu, you are running {system_name()}.")
+        sys.exit(1)
+    elif '20.04' not in system_version():
+        print(f"Warning, this script is only tested on Ubuntu 20.04LTS, you are running {system_version()}")
+
     exec_shell("sudo apt update")
     exec_shell("sudo apt install python3-dev python-is-python3")
     exec_shell("sudo apt update")
