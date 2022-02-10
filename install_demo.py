@@ -17,7 +17,7 @@ def exec_shell(cmd: str, allow_fail=False) -> int:
             print(f"RETURNED: {rtn} !! Warning, executing \n  {cmd}\n  returned abnormally.")
     elif rtn != 0:
         print(stderr)
-        raise subprocess.CalledProcessError(rtn, cmd, stderr=stderr)
+        raise subprocess.CalledProcessError(rtn, cmd, stderr=stderr.read())
     print("RETURNED: 0\n")
     return rtn
 
