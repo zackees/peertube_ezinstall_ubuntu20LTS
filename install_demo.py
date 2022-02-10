@@ -1,3 +1,7 @@
+"""
+    one line install:
+      curl https://raw.githubusercontent.com/zackees/peertube_ezinstall_ubuntu20LTS/main/install_demo.py | python3
+"""
 import os
 import sys
 import subprocess
@@ -6,9 +10,15 @@ import platform
 
 def exec_shell(cmd: str, allow_fail=False) -> int:
     print(f"RUNNING: {cmd}")
-    with subprocess.Popen(cmd, shell=True, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as proc:
+    with subprocess.Popen(
+        cmd,
+        shell=True,
+        universal_newlines=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    ) as proc:
         for line in proc.stdout:
-            print('  ' + line.strip())
+            print("  " + line.strip())
         proc.wait()
         rtn = proc.returncode
         stderr = proc.stderr.read().strip()
@@ -16,23 +26,29 @@ def exec_shell(cmd: str, allow_fail=False) -> int:
         print(f"ERROR: {stderr}")
     if allow_fail:
         if rtn != 0:
-            print(f"RETURNED: {rtn} !! Warning, executing \n  {cmd}\n  returned abnormally.")
+            print(
+                f"RETURNED: {rtn} !! Warning, executing \n  {cmd}\n  returned abnormally."
+            )
     elif rtn != 0:
         raise subprocess.CalledProcessError(rtn, cmd, stderr=stderr)
     print("RETURNED: 0\n")
     return rtn
 
+
 def exec_stdout(cmd: str) -> str:
     return subprocess.check_output(cmd, shell=True, universal_newlines=True)
 
+
 def system_name() -> str:
-    if sys.platform == 'win32':
+    if sys.platform == "win32":
         return platform.uname().system
     else:
         return platform.uname().node
 
+
 def system_version() -> str:
     return platform.uname().version
+
 
 def chdir(path: str) -> str:
     prev = os.getcwd()
@@ -52,15 +68,16 @@ def exe_shell_script():
     # exec_shell('g++ -v') # Should be >= 5.x
     exec_shell("sudo systemctl start redis postgresql")
     exec_shell("sudo useradd -m -d /var/www/peertube -s /bin/bash -p peertube peertube")
-    print("Warning: using default user/pass \"peertube\"")
+    print('Warning: using default user/pass "peertube"')
     exec_shell("echo peertube\\npeertube | sudo passwd peertube")
     chdir("/var/www/peertube")
     exec_shell(
-        "sudo -u postgres createdb -O peertube -E UTF8 -T template0 peertube_prod")
+        "sudo -u postgres createdb -O peertube -E UTF8 -T template0 peertube_prod"
+    )
     exec_shell('sudo -u postgres psql -c "CREATE EXTENSION pg_trgm;" peertube_prod')
     exec_shell('sudo -u postgres psql -c "CREATE EXTENSION unaccent;" peertube_prod')
     version_str = exec_stdout(
-        '''curl -s https://api.github.com/repos/chocobozzz/peertube/releases/latest | grep tag_name | cut -d '"' -f 4''',
+        """curl -s https://api.github.com/repos/chocobozzz/peertube/releases/latest | grep tag_name | cut -d '"' -f 4""",
     ).strip()
     chdir("/var/www/peertube")
     exec_shell("sudo -u peertube mkdir -p config storage versions")
@@ -74,7 +91,8 @@ def exe_shell_script():
     )
     chdir("/var/www/peertube")
     exec_shell(
-        f"sudo -u peertube ln -s versions/peertube-{version_str} ./peertube-latest")
+        f"sudo -u peertube ln -s versions/peertube-{version_str} ./peertube-latest"
+    )
     chdir("./peertube-latest")
     exec_shell("sudo -H -u peertube yarn install --production --pure-lockfile")
     chdir("/var/www/peertube")
@@ -89,16 +107,23 @@ def exe_shell_script():
         "\n\nFinished installation, please edit config/production.yaml\nThen visit https://docs.joinpeertube.org/install-any-os?id=truck-webserver to continue installation."
     )
 
+
 def main() -> None:
-    if 'ubuntu' != system_name():
-        print(f"Error, this script is only tested for ubuntu, you are running {system_name()}.")
+    if "ubuntu" != system_name():
+        print(
+            f"Error, this script is only tested for ubuntu, you are running {system_name()}."
+        )
         sys.exit(1)
-    elif '20.04' not in system_version():
-        print(f"Warning, this script is only tested on Ubuntu 20.04LTS, you are running {system_version()}")
+    elif "20.04" not in system_version():
+        print(
+            f"Warning, this script is only tested on Ubuntu 20.04LTS, you are running {system_version()}"
+        )
     try:
         exe_shell_script()
     except subprocess.CalledProcessError as cpe:
-        print(F"UNEXPECTED ERROR:\n  CMD: {cpe.cmd}\n  RTN: {cpe.returncode}\n  STDERR: {cpe.stderr}")
+        print(
+            f"UNEXPECTED ERROR:\n  CMD: {cpe.cmd}\n  RTN: {cpe.returncode}\n  STDERR: {cpe.stderr}"
+        )
         sys.exit(1)
 
 
