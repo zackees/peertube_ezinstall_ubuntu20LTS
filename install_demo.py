@@ -27,6 +27,7 @@ exec_shell('sudo -u postgres psql -c "CREATE EXTENSION pg_trgm;" peertube_prod')
 exec_shell('sudo -u postgres psql -c "CREATE EXTENSION unaccent;" peertube_prod')
 version_str = subprocess.check_output(
     '''VERSION=$(curl -s https://api.github.com/repos/chocobozzz/peertube/releases/latest | grep tag_name | cut -d '"' -f 4) && echo " $VERSION"'''
+    shell=True,
 )
 os.chdir("/var/www/peertube")
 exec_shell("sudo -u peertube mkdir config storage versions")
