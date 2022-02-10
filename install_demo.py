@@ -5,7 +5,7 @@ import platform
 
 
 def exec_shell(cmd: str) -> int:
-    print(f"RUNNING -> {cmd}")
+    print(f"RUNNING  {cmd}")
     rtn = os.system(cmd)
     if rtn != 0:
         print(f"RETURNED {rtn} Warning, executing \n  {cmd}\n  returned abnormally.")
