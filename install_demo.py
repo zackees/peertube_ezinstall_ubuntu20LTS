@@ -40,13 +40,8 @@ def chdir(path: str) -> str:
     os.chdir(path)
     return prev
 
-def main() -> None:
-    if 'ubuntu' != system_name():
-        print(f"Error, this script is only tested for ubuntu, you are running {system_name()}.")
-        sys.exit(1)
-    elif '20.04' not in system_version():
-        print(f"Warning, this script is only tested on Ubuntu 20.04LTS, you are running {system_version()}")
 
+def exe_shell_script():
     exec_shell("sudo apt update")
     exec_shell("sudo apt install python3-dev python-is-python3")
     exec_shell("sudo apt update")
@@ -93,6 +88,19 @@ def main() -> None:
     print(
         "\n\nFinished installation, please edit config/production.yaml\nThen visit https://docs.joinpeertube.org/install-any-os?id=truck-webserver to continue installation."
     )
+
+def main() -> None:
+    if 'ubuntu' != system_name():
+        print(f"Error, this script is only tested for ubuntu, you are running {system_name()}.")
+        sys.exit(1)
+    elif '20.04' not in system_version():
+        print(f"Warning, this script is only tested on Ubuntu 20.04LTS, you are running {system_version()}")
+    try:
+        exe_shell_script()
+    except subprocess.CalledProcessError as cpe:
+        print(F"UNEXPECTED ERROR: {cpe.cmd} failed with return code {cpe.returncode}, stderr: {cpe.stderr}")
+        sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
