@@ -52,7 +52,7 @@ def main() -> None:
         '''curl -s https://api.github.com/repos/chocobozzz/peertube/releases/latest | grep tag_name | cut -d '"' -f 4''',
     ).strip()
     os.chdir("/var/www/peertube")
-    exec_shell("sudo -u peertube mkdir config storage versions")
+    exec_shell("sudo -u peertube mkdir -p config storage versions")
     exec_shell("sudo -u peertube chmod 750 config/")
     os.chdir("/var/www/peertube/versions")
     exec_shell(
