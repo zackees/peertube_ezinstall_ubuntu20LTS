@@ -14,7 +14,8 @@ def exec_shell(cmd: str, allow_fail=False) -> int:
             stdout = '  ' + '\n  '.join(stdout.split('\n')).strip()
         else:
             stdout = '  ' + stdout
-    print(stdout)
+    if stdout:
+        print(stdout)
     rtn = proc.returncode
     if allow_fail:
         if rtn != 0:
