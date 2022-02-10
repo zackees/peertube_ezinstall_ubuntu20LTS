@@ -15,7 +15,7 @@ def exec_shell(cmd: str) -> int:
 
 
 def exec_stdout(cmd: str) -> str:
-    return subprocess.check_output(cmd, shell=True)
+    return subprocess.check_output(cmd, shell=True, universal_newlines=True)
 
 def system_name() -> str:
     if sys.platform == 'win32':
