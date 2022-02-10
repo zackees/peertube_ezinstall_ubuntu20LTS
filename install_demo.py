@@ -11,11 +11,13 @@ def exec_shell(cmd: str, allow_fail=False) -> int:
             print('  ' + line.strip())
         proc.wait()
         rtn = proc.returncode
+        stderr = proc.stderr
     if allow_fail:
         if rtn != 0:
             print(f"RETURNED: {rtn} !! Warning, executing \n  {cmd}\n  returned abnormally.")
     elif rtn != 0:
-        raise subprocess.CalledProcessError(rtn, cmd, stderr=proc.stderr)
+        print
+        raise subprocess.CalledProcessError(rtn, cmd, stderr=stderr)
     print("RETURNED: 0\n")
     return rtn
 
