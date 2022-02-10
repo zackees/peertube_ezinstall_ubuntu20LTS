@@ -7,7 +7,7 @@ def exec_shell(cmd: str):
     print(f"Running {cmd}:")
     rtn = os.system(cmd)
     if rtn != 0:
-        print(f"Warning, executing \n  {cmd}\nreturned code {rtn}")
+        print(f"Warning, executing \n  {cmd}\n  returned code {rtn}")
 
 
 exec_shell("sudo apt update")
