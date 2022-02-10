@@ -31,7 +31,8 @@ def exec_shell(cmd: str, allow_fail=False) -> int:
             )
     elif rtn != 0:
         raise subprocess.CalledProcessError(rtn, cmd, stderr=stderr)
-    print("RETURNED: 0\n")
+    if rtn == 0:
+        print("RETURNED: 0\n")
     return rtn
 
 
