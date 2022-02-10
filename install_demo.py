@@ -75,7 +75,7 @@ def main() -> None:
         "sudo -u peertube cp peertube-latest/config/production.yaml.example config/production.yaml"
     )
     print(
-        "Finished installation, please edit config/production.yaml\nThen visit https://docs.joinpeertube.org/install-any-os?id=truck-webserver to continue installation."
+        "\n\nFinished installation, please edit config/production.yaml\nThen visit https://docs.joinpeertube.org/install-any-os?id=truck-webserver to continue installation."
     )
 
 if __name__ == "__main__":
