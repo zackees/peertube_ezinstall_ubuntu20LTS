@@ -10,7 +10,7 @@ def exec_shell(cmd: str, allow_fail=False) -> int:
     stdout, _ = proc.communicate()
     if stdout:
         # Adds indent to front.
-        stdout = '  ' + '\n  '.join(stdout.split('\n'))
+        stdout = '  ' + '\n  '.join(stdout.split('\n')).strip()
     print(stdout)
     rtn = proc.returncode
     if allow_fail:
