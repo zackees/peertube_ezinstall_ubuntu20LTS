@@ -14,13 +14,6 @@ def exec_shell(cmd: str) -> int:
 def exec_stdout(cmd: str) -> str:
     return subprocess.check_output(cmd, shell=True)
 
-
-if True:  # Debug
-    version_str = exec_stdout(
-        '''curl -s https://api.github.com/repos/chocobozzz/peertube/releases/latest | grep tag_name | cut -d '"' -f 4''',
-    ).strip()
-    sys.exit(1)
-
 exec_shell("sudo apt update")
 exec_shell("sudo apt install python3-dev python-is-python3")
 exec_shell("sudo apt update")
